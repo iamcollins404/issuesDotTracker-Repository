@@ -1,3 +1,4 @@
+// Controller that lists all issues that belong to the current user
 import { Request, Response } from 'express';
 import { AppDataSource } from '../../configs/connectDb.config';
 import { Issue } from '../../entities/Issue.entity';
@@ -18,6 +19,7 @@ const getAllIssues = async (req: AuthRequest, res: Response): Promise<void> => {
             return;
         }
 
+        // Pull every issue for this user and show newest first
         const issueRepository = AppDataSource.getRepository(Issue);
         const issues = await issueRepository.find({
             where: { issueOwner: userId },

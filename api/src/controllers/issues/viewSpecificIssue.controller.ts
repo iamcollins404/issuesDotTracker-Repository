@@ -1,3 +1,4 @@
+// Controller that returns the details for a single issue owned by the user
 import { Request, Response } from 'express';
 import { AppDataSource } from '../../configs/connectDb.config';
 import { Issue } from '../../entities/Issue.entity';

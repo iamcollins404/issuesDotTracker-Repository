@@ -1,3 +1,4 @@
+// Controller that registers a brand new user account
 import { Request, Response } from 'express';
 import { AppDataSource } from '../../configs/connectDb.config';
 import { User } from '../../entities/User.entity';
@@ -56,7 +57,7 @@ const signup = async (req: Request, res: Response): Promise<void> => {
         // Generate unique userId
         const userId = await generateUniqueUserId();
 
-        // Hash the password
+        // Hash the password before saving it so it never lives in plain text
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
@@ -71,7 +72,7 @@ const signup = async (req: Request, res: Response): Promise<void> => {
         // Save the user to the database
         const savedUser = await userRepository.save(newUser);
 
-        // Remove password from response
+        // Remove password from response before returning user data
         const { password: _, ...userWithoutPassword } = savedUser;
 
         res.status(201).json({

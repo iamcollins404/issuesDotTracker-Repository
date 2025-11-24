@@ -1,3 +1,4 @@
+// Controller that creates a fresh issue for the signed-in user
 import { Request, Response } from 'express';
 import { AppDataSource } from '../../configs/connectDb.config';
 import { Issue, IssueStatus } from '../../entities/Issue.entity';
@@ -39,13 +40,13 @@ const createANewIssue = async (req: AuthRequest, res: Response): Promise<void> =
             return;
         }
 
-        // Generate unique taskId
+        // Generate a unique issueId so every issue can be tracked
         const issueId = await generateUniqueIssueId();
 
-        // Get the task repository
+        // Get the issue repository to talk to the database
         const issueRepository = AppDataSource.getRepository(Issue);
 
-        // Create a new task
+        // Create a new issue record with either provided values or defaults
         const newIssue = issueRepository.create({
             issueId,
             issueOwner: userId,
@@ -54,7 +55,7 @@ const createANewIssue = async (req: AuthRequest, res: Response): Promise<void> =
             status: status || IssueStatus.PENDING
         });
 
-        // Save the task to the database
+        // Save the issue to the database
         const savedIssue = await issueRepository.save(newIssue);
 
         res.status(201).json({
@@ -63,7 +64,7 @@ const createANewIssue = async (req: AuthRequest, res: Response): Promise<void> =
             data: savedIssue
         });
     } catch (error) {
-        console.error('Error creating task:', error);
+        console.error('Error creating issue:', error);
         res.status(500).json({
             success: false,
             message: 'Internal server error',

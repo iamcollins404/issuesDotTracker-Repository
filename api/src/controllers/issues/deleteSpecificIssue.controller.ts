@@ -1,3 +1,4 @@
+// Controller that deletes one issue owned by the signed-in user
 import { Request, Response } from 'express';
 import { AppDataSource } from '../../configs/connectDb.config';
 import { Issue } from '../../entities/Issue.entity';
@@ -44,7 +45,7 @@ const deleteSpecificIssue = async (req: AuthRequest, res: Response): Promise<voi
             return;
         }
 
-        // Delete the issue
+        // Delete the issue now that ownership is confirmed
         await issueRepository.remove(issue);
 
         res.status(200).json({

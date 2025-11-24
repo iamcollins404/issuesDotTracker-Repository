@@ -15,7 +15,7 @@ router.post('/create', require('../controllers/issues/createANewIssue.controller
 router.get('/view/:issueId', require('../controllers/issues/viewSpecificIssue.controller'));
 
 // // 4. update an issue
-// router.put('/update/:id', require('../controllers/issues/updateSpecificIssue.controller'));
+router.put('/update/:issueId', require('../controllers/issues/updateSpecificIssue.controller'));
 
 // // 5. delete an issue
 router.delete('/delete/:issueId', require('../controllers/issues/deleteSpecificIssue.controller'));

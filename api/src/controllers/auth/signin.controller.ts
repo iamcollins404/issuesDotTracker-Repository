@@ -1,3 +1,4 @@
+// Controller that signs in an existing user and returns a JWT token
 import { Request, Response } from 'express';
 import { AppDataSource } from '../../configs/connectDb.config';
 import { User } from '../../entities/User.entity';
@@ -44,7 +45,7 @@ const signin = async (req: Request, res: Response): Promise<void> => {
             return;
         }
 
-        // Generate JWT token
+        // Generate JWT token so the client can stay authenticated
         const jwtSecret = process.env.JWT_SECRET;
         if (!jwtSecret) {
             throw new Error('JWT_SECRET is not configured');
@@ -61,7 +62,7 @@ const signin = async (req: Request, res: Response): Promise<void> => {
             }
         );
 
-        // Remove password from response
+        // Remove password from response before sending it back
         const { password: _, ...userWithoutPassword } = user;
 
         res.status(200).json({
