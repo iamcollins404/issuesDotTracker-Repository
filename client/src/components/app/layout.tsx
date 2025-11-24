@@ -2,6 +2,8 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { LayoutDashboard, ListChecks, LogOut, Settings, BarChart3 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { useState } from 'react'
+import { useAppDispatch } from '../../store/hooks'
+import { clearCredentials } from '../../store/slices/authSlice'
 
 type NavItem = {
   label: string
@@ -21,6 +23,7 @@ function AppLayout() {
   const [isSignOutOpen, setIsSignOutOpen] = useState(false)
   const [isSigningOut, setIsSigningOut] = useState(false)
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
   const closeModal = () => {
     setIsSigningOut(false)
@@ -29,7 +32,10 @@ function AppLayout() {
 
   const handleSignOut = () => {
     setIsSigningOut(true)
+    
+    // Show loading state first, then clear auth token and state after delay
     setTimeout(() => {
+      dispatch(clearCredentials())
       closeModal()
       navigate('/')
     }, 1400)

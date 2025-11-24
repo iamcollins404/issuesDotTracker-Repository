@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import express from 'express';
+import cors from 'cors';
 import dotenv from 'dotenv';
 import { connectDb } from './src/configs/connectDb.config';
 
@@ -8,6 +9,9 @@ dotenv.config();
 
 // initialize express
 const app = express();
+
+// initialize CORS
+app.use(cors());
 
 // initialize the body parser
 app.use(express.json());

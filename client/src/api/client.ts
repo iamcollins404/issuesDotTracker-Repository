@@ -22,7 +22,8 @@ export async function apiRequest<TResponse>(path: string, options: RequestOption
     headers: {
       ...JSON_HEADERS,
       ...(headers ?? {}),
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      // Backend expects 'authtoken' header (not Authorization)
+      ...(token ? { authtoken: token } : {}),
     },
     body: body !== undefined ? JSON.stringify(body) : undefined,
   })

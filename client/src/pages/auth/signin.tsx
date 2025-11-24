@@ -1,16 +1,19 @@
-import { FormEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { signIn } from '../../api/auth'
+import { useAppDispatch } from '../../store/hooks'
+import { setCredentials } from '../../store/slices/authSlice'
 import Footer from '../../components/landing/Footer'
 import Navbar from '../../components/landing/Navbar'
 
 function Signin() {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
   const [formData, setFormData] = useState({ email: '', password: '' })
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
@@ -20,12 +23,33 @@ function Signin() {
     setIsSubmitting(true)
     try {
       const response = await signIn(formData)
-      toast.success(response.message ?? 'Signed in successfully')
-      navigate('/app')
+      
+      if (response?.data?.authtoken && response?.data?.user) {
+        toast.success(response.message ?? 'Signed in successfully')
+        
+        // Show loading state for better UX before storing credentials and navigating
+        setTimeout(() => {
+          // Store token and user info in Redux
+          dispatch(
+            setCredentials({
+              token: response.data.authtoken,
+              user: {
+                userId: response.data.user.userId,
+                email: response.data.user.email,
+                fullname: response.data.user.fullname,
+              },
+            })
+          )
+          setIsSubmitting(false)
+          navigate('/app')
+        }, 800)
+      } else {
+        setIsSubmitting(false)
+        toast.error('Invalid response from server')
+      }
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Unable to sign in')
-    } finally {
       setIsSubmitting(false)
+      toast.error(error instanceof Error ? error.message : 'Unable to sign in')
     }
   }
 

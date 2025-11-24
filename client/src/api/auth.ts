@@ -44,9 +44,8 @@ export async function signIn(payload: SignInPayload): Promise<SignInResponse> {
     body: payload,
   })
 
-  if (response?.data?.authtoken) {
-    localStorage.setItem('authToken', response.data.authtoken)
-  }
+  // Note: Token storage is now handled by Redux in the component
+  // This function just returns the response
 
   return response
 }

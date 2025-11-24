@@ -13,6 +13,8 @@ import IssuesIndex from './pages/app/issues'
 import ViewIssue from './pages/app/issues/viewIssue'
 import Reports from './pages/app/reports'
 import Settings from './pages/app/settings'
+import ProtectedRoute from './components/auth/ProtectedRoute'
+import AuthRedirect from './components/auth/AuthRedirect'
 
 function App() {
   return (
@@ -20,12 +22,33 @@ function App() {
       <Routes>
         <Route path="/" element={<Index />} />
 
-        {/* auth routes */}
-        <Route path="/auth/signin" element={<Signin />} />
-        <Route path="/auth/signup" element={<Signup />} />
+        {/* auth routes - redirect to /app if already authenticated */}
+        <Route
+          path="/auth/signin"
+          element={
+            <AuthRedirect>
+              <Signin />
+            </AuthRedirect>
+          }
+        />
+        <Route
+          path="/auth/signup"
+          element={
+            <AuthRedirect>
+              <Signup />
+            </AuthRedirect>
+          }
+        />
 
-        {/* app area */}
-        <Route path="/app" element={<AppLayout />}>
+        {/* app area - protected routes */}
+        <Route
+          path="/app"
+          element={
+            <ProtectedRoute>
+              <AppLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<Dashboard />} />
           <Route path="issues" element={<IssuesIndex />} />
           <Route path="issues/:issueId" element={<ViewIssue />} />
