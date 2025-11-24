@@ -9,6 +9,10 @@ dotenv.config();
 // initialize express
 const app = express();
 
+// initialize the body parser
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 // initialize the database
 connectDb();
 
@@ -18,6 +22,9 @@ const port = process.env.PORT || 3000;
 // now use the routes
 // 1. auth routes
 app.use('/api/auth', require('./src/routes/auth.routes'));
+
+// 2. issue routes
+app.use('/api/issues', require('./src/routes/issues.routes'));
 
 // start the server
 app.listen(port, () => {

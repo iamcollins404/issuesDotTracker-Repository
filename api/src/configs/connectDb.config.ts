@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import dotenv from 'dotenv';
 import { DataSource } from 'typeorm';
 import { User } from '../entities/User.entity';
-
+import { Issue } from '../entities/Issue.entity';
 dotenv.config();
 
 export const AppDataSource = new DataSource({
@@ -12,6 +12,7 @@ export const AppDataSource = new DataSource({
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD?.toString(),
     database: process.env.DB_NAME,
+    entities: [User, Issue],
     synchronize: true, // Set to false in production and use migrations instead
     logging: false,
 });
