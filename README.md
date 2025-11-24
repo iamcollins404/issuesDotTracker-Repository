@@ -57,7 +57,7 @@ If you get connection errors, double-check:
 
 That’s it—install tools, set up Postgres, add the `.env`, then `npm run dev`.
 
-Brief notes on why you made certain decisions and any trade-offs
+**Brief notes on why I made certain decisions and any trade-offs**
 I picked TypeScript so both the backend and frontend can share the same data shapes, and TypeScript warns me early when something breaks. The trade-off is that compilation takes longer, and newcomers need time to learn TS before they become productive.
 
 I chose TypeORM because its decorators feel natural in TypeScript and it gives me flexibility if we ever switch databases. The downside is that for more complex or performance-sensitive queries, I sometimes have to drop down into custom SQL or use the query builder.
@@ -69,55 +69,56 @@ I separated routes, controllers, and entities to keep concerns clean: routes han
 My server.ts only sets up Express, middleware, the database connection, and routes. This makes the entry point small and easy to maintain, and it also allows tests to import and start the app quickly—even though the file itself looks minimal.
 
 On the frontend, I added Redux so state lives in a single predictable store. This makes debugging easier and keeps data flow consistent as the app grows. The trade-off is some extra boilerplate and the need for discipline when managing actions and reducers, but it pays off as soon as the UI becomes more complex.
-What I Would Improve or Change With More Time
-Backend Pagination, Sorting, and Filtering
+
+**What I Would Improve or Change With More Time
+Backend Pagination, Sorting, and Filtering**
 Due to time constraints, I wasn’t able to implement full backend-driven pagination, searching, and filtering. For performance and scalability, this would be the first improvement I’d make.
 
-Add Swagger API Documentation
+**Add Swagger API Documentation**
 I would add Swagger ui on our api and document all our apis.
 
 
-Add a Logging System (e.g., LogJS)
+**Add a Logging System (e.g., LogJS)**
 I would integrate a proper logging tool to track errors, requests, and system events more effectively.
 
 
-Email Sending Service
+**Email Sending Service**
  I would add an email service for:
 
 
-Welcome emails
+**Welcome emails**
 
 
-Password reset emails
+**Password reset emails**
 
 
-Refresh Token Flow
+**Refresh Token Flow**
 To enhance security, I would implement a proper refresh token mechanism for session renewal.
 
 
-AI LLM for Voice Task Input
+**AI LLM for Voice Task Input**
 I would integrate an AI model to allow users to add tasks using voice.
 
 
-Automated Reminders
+**Automated Reminders**
 I would add automated reminder notifications to improve user experience and workflow efficiency.
 Recycle Bin for Deleted Tasks
  I would add a recycle bin where deleted tasks can be restored or permanently removed.
 
 
-Reminders System
+**Reminders System**
 I would implement a full reminders feature so users can receive notifications for upcoming tasks.
 
 
-Team Access & Collaboration
+**Team Access & Collaboration**
 I would add team access so multiple users can collaborate, share tasks, and manage permissions.
 
 
-Subscription for Premium Features
+**Subscription for Premium Features**
 I would introduce a subscription model to unlock premium features like advanced analytics, priority support, and extended storage.
 
 
-Updates & Change Logs
+**Updates & Change Logs**
 I would add a clear updates/changelog section so users can track new features, fixes, and improvements.
 
 
