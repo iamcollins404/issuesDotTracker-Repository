@@ -26,6 +26,9 @@ app.use('/api/auth', require('./src/routes/auth.routes'));
 // 2. issue routes
 app.use('/api/issues', require('./src/routes/issues.routes'));
 
+// 3. dashboard routes
+app.use('/api/dashboard', require('./src/routes/dashboard.routes'));
+
 // start the server
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

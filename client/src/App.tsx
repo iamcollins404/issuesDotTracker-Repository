@@ -7,6 +7,12 @@ import Index from './pages/index'
 import NotFound from './pages/notFound'
 import Signup from './pages/auth/signup'
 import Signin from './pages/auth/signin'
+import AppLayout from './components/app/layout'
+import Dashboard from './pages/app/dashboard'
+import IssuesIndex from './pages/app/issues'
+import ViewIssue from './pages/app/issues/viewIssue'
+import Reports from './pages/app/reports'
+import Settings from './pages/app/settings'
 
 function App() {
   return (
@@ -17,6 +23,15 @@ function App() {
         {/* auth routes */}
         <Route path="/auth/signin" element={<Signin />} />
         <Route path="/auth/signup" element={<Signup />} />
+
+        {/* app area */}
+        <Route path="/app" element={<AppLayout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="issues" element={<IssuesIndex />} />
+          <Route path="issues/:issueId" element={<ViewIssue />} />
+          <Route path="reports" element={<Reports />} />
+          <Route path="settings" element={<Settings />} />
+        </Route>
 
         {/* not found page route */}
         <Route path="*" element={<NotFound />} />

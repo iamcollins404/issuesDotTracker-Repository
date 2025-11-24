@@ -1,5 +1,5 @@
 import { useState, type MouseEvent } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 const navLinks = [
   { label: 'explore', href: '#explore' },
@@ -9,23 +9,27 @@ const navLinks = [
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
+  const location = useLocation()
 
   const toggleMenu = () => setIsOpen((prev) => !prev)
 
   const closeMenu = () => setIsOpen(false)
 
-  const scrollToTop = (event: MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault()
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+  const handleLogoClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (location.pathname === '/') {
+      event.preventDefault()
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+
     closeMenu()
   }
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-[#0E0E0E]/80 px-6 backdrop-blur-xl lg:px-12">
       <div className="mx-auto flex max-w-7xl items-center justify-between py-6">
-        <a href="#hero" onClick={scrollToTop} className="text-2xl font-black tracking-tight lowercase">
+        <Link to="/" onClick={handleLogoClick} className="text-2xl font-black tracking-tight lowercase">
           issues.tracker
-        </a>
+        </Link>
 
         <div className="hidden items-center gap-10 md:flex">
           {navLinks.map((link) => (
