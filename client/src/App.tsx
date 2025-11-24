@@ -15,10 +15,12 @@ import Reports from './pages/app/reports'
 import Settings from './pages/app/settings'
 import ProtectedRoute from './components/auth/ProtectedRoute'
 import AuthRedirect from './components/auth/AuthRedirect'
+import ScrollToTop from './components/ScrollToTop'
 
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Index />} />
 

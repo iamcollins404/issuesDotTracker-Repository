@@ -85,10 +85,9 @@ function AppLayout() {
           <div className="mt-auto border-t border-white/5 pt-6">
             <button
               type="button"
-              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#FF4D4D] px-4 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-[#FF6B6B]"
+            className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#FF4D4D] px-4 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-[#FF6B6B]"
               onClick={() => setIsSignOutOpen(true)}
             >
-              <LogOut className="h-4 w-4" />
               sign out
             </button>
           </div>
@@ -172,12 +171,10 @@ function AppLayout() {
         <button
           type="button"
           aria-label="Scroll to top"
-          className="fixed bottom-6 right-6 z-30 rounded-full border border-white/10 bg-white/10 p-3 text-white shadow-lg backdrop-blur-md transition hover:bg-white/20"
+          className="fixed bottom-8 right-6 z-30 rounded-full bg-white px-5 py-4 text-xs font-semibold uppercase tracking-[0.3em] text-black shadow-xl transition hover:bg-white/90"
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
-          <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m5 15 7-7 7 7" />
-          </svg>
+          top
         </button>
       )}
 
