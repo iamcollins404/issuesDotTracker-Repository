@@ -149,9 +149,6 @@ function ViewIssue() {
             </button>
           </div>
         </div>
-        <p className="mt-5 max-w-3xl text-sm text-white/70">
-          {issue.description ?? 'No description has been provided for this issue yet.'}
-        </p>
       </header>
 
       <section className="grid gap-6 lg:grid-cols-3">
@@ -187,13 +184,13 @@ function ViewIssue() {
 
       {isDeleteOpen && (
         <div
-          className="fixed inset-0 z-40 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+          className="fixed inset-0 z-40 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 sm:p-6"
           onClick={() => {
             if (!isDeleting) setIsDeleteOpen(false)
           }}
         >
           <div
-            className="w-full max-w-md rounded-3xl border border-white/10 bg-[#0B0B0B] p-10 text-white shadow-[0_35px_90px_rgba(0,0,0,0.65)]"
+            className="w-full max-w-md rounded-3xl border border-white/10 bg-[#0B0B0B] p-6 sm:p-8 md:p-10 text-white shadow-[0_35px_90px_rgba(0,0,0,0.65)]"
             onClick={(event) => event.stopPropagation()}
           >
             <p className="text-xs uppercase tracking-[0.4em] text-white/40">delete issue</p>
@@ -227,13 +224,13 @@ function ViewIssue() {
 
       {isUpdateOpen && (
         <div
-          className="fixed inset-0 z-40 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+          className="fixed inset-0 z-40 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 sm:p-6"
           onClick={() => {
             if (!isUpdating) setIsUpdateOpen(false)
           }}
         >
           <div
-            className="w-full max-w-lg rounded-3xl border border-white/10 bg-[#0B0B0B] p-10 text-white shadow-[0_35px_90px_rgba(0,0,0,0.65)]"
+            className="w-full max-w-lg rounded-3xl border border-white/10 bg-[#0B0B0B] p-6 sm:p-8 md:p-10 text-white shadow-[0_35px_90px_rgba(0,0,0,0.65)]"
             onClick={(event) => event.stopPropagation()}
           >
             <p className="text-xs uppercase tracking-[0.4em] text-white/40">update issue</p>

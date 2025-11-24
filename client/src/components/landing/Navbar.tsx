@@ -1,4 +1,4 @@
-import { useState, type MouseEvent } from 'react'
+import { useEffect, useState, type MouseEvent } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAppSelector } from '../../store/hooks'
 
@@ -13,6 +13,13 @@ function Navbar() {
   const location = useLocation()
   const navigate = useNavigate()
   const { isAuthenticated } = useAppSelector((state) => state.auth)
+
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isOpen])
 
   const toggleMenu = () => setIsOpen((prev) => !prev)
 
@@ -104,28 +111,52 @@ function Navbar() {
       </div>
 
       {isOpen && (
-        <div className="border-t border-white/5 bg-[#0E0E0E]/95 px-6 py-6 md:hidden" onClick={closeMenu}>
-          <div className="flex flex-col gap-4 text-center">
-            {!isAuthenticated && navLinks.map((link) => (
-              <a key={link.label} href={link.href} className="text-sm lowercase text-white/70 hover:text-white">
-                {link.label}
-              </a>
-            ))}
+        <div className="fixed inset-0 z-40 bg-[#0E0E0E]/90 px-6 py-10 backdrop-blur-xl md:hidden">
+          <div className="flex items-center justify-between">
+            <p className="text-lg font-semibold lowercase text-white">navigate</p>
+            <button
+              className="rounded-full border border-white/10 p-2 text-white"
+              aria-label="Close navigation"
+              onClick={closeMenu}
+            >
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18 18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <div className="mt-10 flex flex-col gap-6 text-center">
+            {!isAuthenticated &&
+              navLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={closeMenu}
+                  className="text-lg lowercase text-white/80 transition hover:text-white"
+                >
+                  {link.label}
+                </a>
+              ))}
             {isAuthenticated ? (
               <Link
                 to="/app"
-                className="rounded-full bg-white px-6 py-3 text-sm font-semibold uppercase text-black"
+                onClick={closeMenu}
+                className="rounded-2xl bg-white px-6 py-4 text-sm font-semibold uppercase text-black"
               >
                 dashboard
               </Link>
             ) : (
               <>
-                <Link to="/auth/signin" className="text-sm lowercase text-white/70 hover:text-white">
+                <Link
+                  to="/auth/signin"
+                  onClick={closeMenu}
+                  className="text-lg lowercase text-white/80 transition hover:text-white"
+                >
                   sign in
                 </Link>
                 <Link
                   to="/auth/signup"
-                  className="rounded-full bg-white px-6 py-3 text-sm font-semibold uppercase text-black"
+                  onClick={closeMenu}
+                  className="rounded-2xl bg-white px-6 py-4 text-sm font-semibold uppercase text-black"
                 >
                   sign up
                 </Link>

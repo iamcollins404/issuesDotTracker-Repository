@@ -18,6 +18,8 @@ const statusTone: Record<string, string> = {
 
 const formatStatus = (status: string) => status.replace('_', ' ')
 
+const skeletonRows = Array.from({ length: 4 })
+
 function Dashboard() {
   const [stats, setStats] = useState<DashboardStatsResponse['data'] | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -73,13 +75,21 @@ function Dashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5">
-                {isLoading && (
-                  <tr>
-                    <td className="py-6 pr-4 text-white/40" colSpan={3}>
-                      syncing fresh insights…
-                    </td>
-                  </tr>
-                )}
+                {isLoading &&
+                  skeletonRows.map((_, index) => (
+                    <tr key={`skeleton-${index}`}>
+                      <td className="py-4 pr-4">
+                        <div className="skeleton h-3 w-28 rounded-full" />
+                        <div className="skeleton mt-3 h-5 w-48 rounded-full" />
+                      </td>
+                      <td className="py-4 pr-4">
+                        <div className="skeleton h-4 w-24 rounded-full" />
+                      </td>
+                      <td className="py-4 pr-4">
+                        <div className="skeleton h-4 w-32 rounded-full" />
+                      </td>
+                    </tr>
+                  ))}
                 {!isLoading && recentIssues.length === 0 && (
                   <tr>
                     <td className="py-6 pr-4 text-white/40" colSpan={3}>
@@ -123,7 +133,13 @@ function Dashboard() {
                 {card.label}
               </p>
               <p className="mt-3 text-4xl font-black">
-                {isLoading ? '—' : (stats?.[card.key] ?? 0).toLocaleString()}
+                {isLoading ? (
+                  <span className="block">
+                    <span className="skeleton block h-10 w-24 rounded-2xl" />
+                  </span>
+                ) : (
+                  (stats?.[card.key] ?? 0).toLocaleString()
+                )}
               </p>
             </article>
           ))}

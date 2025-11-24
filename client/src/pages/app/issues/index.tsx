@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Plus, Search } from 'lucide-react'
 import { toast } from 'sonner'
 import { createIssue, getIssues, type IssueRecord } from '../../../api/issues'
@@ -29,6 +29,8 @@ const formatDate = (iso: string) => {
   }).format(date)
 }
 
+const skeletonRows = Array.from({ length: 3 })
+
 function IssuesIndex() {
   const [issues, setIssues] = useState<IssueRecord[]>([])
   const [activeTab, setActiveTab] = useState<(typeof tabs)[number]['value']>('all')
@@ -40,6 +42,7 @@ function IssuesIndex() {
   const [isCreateOpen, setIsCreateOpen] = useState(false)
   const [isCreating, setIsCreating] = useState(false)
   const [newIssue, setNewIssue] = useState({ title: '', description: '', status: 'pending' })
+  const navigate = useNavigate()
 
   const loadIssues = async () => {
     try {
@@ -196,11 +199,17 @@ function IssuesIndex() {
 
       {viewMode === 'cards' ? (
         <div className="space-y-4">
-          {isLoading && (
-            <div className="rounded-3xl border border-white/5 bg-[#0A0A0A] px-6 py-5 text-sm text-white/50">
-              syncing your issues…
-            </div>
-          )}
+          {isLoading &&
+            skeletonRows.map((_, index) => (
+              <div
+                key={`card-skeleton-${index}`}
+                className="rounded-3xl border border-white/5 bg-[#0A0A0A] px-6 py-5 shadow-[0_15px_45px_rgba(0,0,0,0.35)]"
+              >
+                <div className="skeleton h-3 w-28 rounded-full" />
+                <div className="mt-4 skeleton h-6 w-3/4 rounded-full" />
+                <div className="mt-4 skeleton h-4 w-1/3 rounded-full" />
+              </div>
+            ))}
 
           {!isLoading &&
             filteredIssues.map((issue) => {
@@ -246,13 +255,21 @@ function IssuesIndex() {
               </tr>
             </thead>
             <tbody>
-              {isLoading && (
-                <tr>
-                  <td colSpan={3} className="px-6 py-10 text-center text-white/60">
-                    syncing your issues…
-                  </td>
-                </tr>
-              )}
+              {isLoading &&
+                skeletonRows.map((_, index) => (
+                  <tr key={`table-skeleton-${index}`} className="border-b border-white/5 last:border-none">
+                    <td className="px-6 py-4">
+                      <div className="skeleton h-3 w-28 rounded-full" />
+                      <div className="mt-3 skeleton h-5 w-2/3 rounded-full" />
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="skeleton h-4 w-24 rounded-full" />
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="skeleton h-4 w-20 rounded-full" />
+                    </td>
+                  </tr>
+                ))}
               {!isLoading &&
                 filteredIssues.map((issue) => {
                   const issuePath = `/app/issues/${issue.issueId}`
@@ -262,7 +279,7 @@ function IssuesIndex() {
                       key={issue.issueId}
                       className="cursor-pointer border-b border-white/5 transition hover:bg-white/5 last:border-none"
                       onClick={() => {
-                        window.location.href = issuePath
+                        navigate(issuePath)
                       }}
                     >
                       <td className="px-6 py-4">
@@ -297,13 +314,13 @@ function IssuesIndex() {
 
       {isCreateOpen && (
         <div
-          className="fixed inset-0 z-40 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+          className="fixed inset-0 z-40 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 sm:p-6"
           onClick={() => {
             if (!isCreating) setIsCreateOpen(false)
           }}
         >
           <div
-            className="w-full max-w-lg rounded-3xl border border-white/10 bg-[#0B0B0B] p-10 text-white shadow-[0_35px_90px_rgba(0,0,0,0.65)]"
+            className="w-full max-w-lg rounded-3xl border border-white/10 bg-[#0B0B0B] p-6 sm:p-8 md:p-10 text-white shadow-[0_35px_90px_rgba(0,0,0,0.65)]"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="mb-6 flex items-center justify-between">
