@@ -1,5 +1,7 @@
+import 'reflect-metadata';
 import express from 'express';
 import dotenv from 'dotenv';
+import { connectDb } from './src/configs/connectDb.config';
 
 // initialize dotenv
 dotenv.config();
@@ -7,8 +9,15 @@ dotenv.config();
 // initialize express
 const app = express();
 
+// initialize the database
+connectDb();
+
 // GET the port from the environment variable
 const port = process.env.PORT || 3000;
+
+// now use the routes
+// 1. auth routes
+app.use('/api/auth', require('./src/routes/auth.routes'));
 
 // start the server
 app.listen(port, () => {
